@@ -1,0 +1,5 @@
+hw/RoomFSM.sv
+hw/SwordFSM.sv
+hw/game.sv
+
+test/game_tb.sv

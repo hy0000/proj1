@@ -36,6 +36,7 @@ module RoomFSM (
     // Default assignments for outputs
     assign win = (current_state == VAULT    );
     assign d   = (current_state == GRAVEYARD);
+    assign sw  = (current_state == STASH    );
 
     // State transition logic
     always_comb begin

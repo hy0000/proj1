@@ -1,32 +1,38 @@
-`timescale 1ns/1ps
+`timescale 1ns/1ns
+
 module game_tb;
 
     logic n, s, e, w;
     logic reset, clk;
     logic d, win;
 
-    // Clock generation
-    always begin
-        clk = 1'b0;
-        #5;
-        clk = 1'b1;
-        #5;
-    end
-
-    // Reset generation
     initial begin
-        reset = 1'b1;
-        #10;
-        reset = 1'b0;
+        reset = 1; clk = 0;
+        #50 reset = 0;
+        #5 clk = 1;
+        forever
+            #5 clk = ~clk;
     end
 
     // Direction control for character death
     initial begin
+        $fsdbDumpfile("test.fsdb");
+        $fsdbDumpvars(0, game_tb);
+
         n = 1'b0;
-        s = 1'b1;
+        s = 1'b0;
         e = 1'b0;
         w = 1'b0;
-        #20;
+        #100;
+
+        @(posedge clk) e = 1'b1;
+        @(posedge clk) e = 1'b0; s = 1'b1;
+        @(posedge clk) s = 1'b0; w = 1'b1;
+        @(posedge clk) w = 1'b0; e = 1'b1;
+        @(posedge clk) ;
+        @(posedge clk) e = 1'b0;
+        #100;
+        $finish;
     end
 
     // Output monitoring

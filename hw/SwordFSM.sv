@@ -26,7 +26,7 @@ module SwordFSM (
     always_comb begin
         case (current_state)
             NO_SWORD: next_state = (sw) ? HAS_SWORD : NO_SWORD;
-            HAS_SWORD: next_state = (sw) ? HAS_SWORD : NO_SWORD;
+            HAS_SWORD: next_state = HAS_SWORD;
             default: next_state = current_state;
         endcase
     end

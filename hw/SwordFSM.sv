@@ -1,3 +1,4 @@
+`timescale 1ns/1ns
 module SwordFSM (
     input logic clk,       // Clock input
     input logic reset,     // Reset input

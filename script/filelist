@@ -1,5 +1,7 @@
 hw/RoomFSM.sv
 hw/SwordFSM.sv
-hw/game.sv
+hw/GameIf.sv
+hw/Game.sv
 
 test/game_tb.sv
+test/game_harness.sv

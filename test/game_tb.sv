@@ -1,62 +1,50 @@
 `timescale 1ns/1ns
-
-module game_tb;
-
-    logic n, s, e, w;
-    logic reset, clk;
-    logic d, win;
+module game_tb (
+    GameIf.TEST game_if
+);
 
     initial begin
-        reset = 1; clk = 0;
-        #50 reset = 0;
-        #5 clk = 1;
-        forever
-            #5 clk = ~clk;
+        game_if.n = 1'b0;
+        game_if.s = 1'b0;
+        game_if.e = 1'b0;
+        game_if.w = 1'b0;
+        game_if.reset = 1;
+        #50
+        game_if.reset = 0;
     end
 
-    // Direction control for character death
-    initial begin
-        $fsdbDumpfile("test.fsdb");
-        $fsdbDumpvars(0, game_tb);
+    task run_test(string dir_seq);
+        if(game_if.reset)
+            @(!game_if.reset)
 
-        n = 1'b0;
-        s = 1'b0;
-        e = 1'b0;
-        w = 1'b0;
-        #100;
-
-        @(posedge clk) e = 1'b1;
-        @(posedge clk) e = 1'b0; s = 1'b1;
-        @(posedge clk) s = 1'b0; w = 1'b1;
-        @(posedge clk) w = 1'b0; e = 1'b1;
-        @(posedge clk) ;
-        @(posedge clk) e = 1'b0;
-        #100;
-        $finish;
-    end
-
-    // Output monitoring
-    always @(posedge clk) begin
-        $display("d = %b, win = %b", d, win);
-    end
-
-    // Instantiating the DUT
-    game game (
-        .n(n),
-        .s(s),
-        .e(e),
-        .w(w),
-        .reset(reset),
-        .clk(clk),
-        .d(d),
-        .win(win)
-    );
-
-    // Stop simulation when game over
-    always @(posedge clk) begin
-        if (d || win) begin
-            $stop;
+        for(int i=0; i<dir_seq.len(); i++) begin
+            game_if.n = 1'b0;
+            game_if.s = 1'b0;
+            game_if.e = 1'b0;
+            game_if.w = 1'b0;
+            case(dir_seq[i])
+                "N": game_if.n = 1'b1;
+                "S": game_if.s = 1'b1;
+                "E": game_if.e = 1'b1;
+                "W": game_if.w = 1'b1;
+            endcase
+            @(posedge game_if.clk);
         end
+    endtask
+
+    initial begin
+        fork
+            // Output monitoring
+            forever @(posedge game_if.clk) begin
+                $display("d = %b, win = %b", game_if.d, game_if.win);
+            end
+            // Stop simulation when game over
+            forever @(posedge game_if.clk) begin
+                if (game_if.d || game_if.win) begin
+                    $finish;
+                end
+            end
+        join
     end
 
 endmodule

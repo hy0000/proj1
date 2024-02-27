@@ -47,6 +47,7 @@ module game_tb (
             // Stop simulation when game over
             forever @(posedge game_if.clk) begin
                 if (game_if.d || game_if.win) begin
+                    $display("simulation end at clk = %d", $time);
                     $finish;
                 end
             end

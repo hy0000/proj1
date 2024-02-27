@@ -11,16 +11,9 @@ module game_test1;
     initial begin
         $fsdbDumpfile("tb1.fsdb");
         $fsdbDumpvars(0, game_tb);
-        //tb.reset;
-        //tb.run_test("E");
-        //tb.reset;
-        //tb.run_test("ES");
-        //tb.reset;
-        //tb.run_test("ESW");
-        //tb.reset;
-        //tb.run_test("ESW");
-        //tb.reset;
-        tb.run_test("ESE");
-        tb.monitor();
+        fork
+           tb.run_test("ESE");
+           tb.monitor();
+        join
     end
 endmodule

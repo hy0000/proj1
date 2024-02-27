@@ -4,4 +4,3 @@ hw/GameIf.sv
 hw/Game.sv
 
 test/game_tb.sv
-test/game_harness.sv

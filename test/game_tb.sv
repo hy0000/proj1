@@ -13,6 +13,12 @@ module game_tb (
         game_if.reset = 0;
     end
 
+    task reset();
+        game_if.reset = 1;
+        #50
+        game_if.reset = 0;
+    endtask
+
     task run_test(string dir_seq);
         if(game_if.reset)
             @(!game_if.reset)
@@ -32,7 +38,7 @@ module game_tb (
         end
     endtask
 
-    initial begin
+    task monitor;
         fork
             // Output monitoring
             forever @(posedge game_if.clk) begin
@@ -45,6 +51,6 @@ module game_tb (
                 end
             end
         join
-    end
+    endtask
 
 endmodule

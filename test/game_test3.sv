@@ -1,5 +1,5 @@
 `timescale 1ns/1ns
-module game_harness;
+module game_test1;
     bit clk;
     always #5 clk = ~clk;
 
@@ -9,9 +9,11 @@ module game_harness;
     game_tb tb(game_if);
 
     initial begin
-        $fsdbDumpfile("game_tb.fsdb");
+        $fsdbDumpfile("tb1.fsdb");
         $fsdbDumpvars(0, game_tb);
-
-        tb.run_test("ESWEE");
+        fork
+           tb.run_test("EWESNSWEE");
+           tb.monitor();
+        join
     end
 endmodule

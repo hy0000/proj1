@@ -26,10 +26,6 @@ module game_tb (
 
     task run_test(string dir_seq);
         for(int i=0; i<dir_seq.len(); i++) begin
-            gif.n = 1'b0;
-            gif.s = 1'b0;
-            gif.e = 1'b0;
-            gif.w = 1'b0;
             case(dir_seq[i])
                 "N": gif.n = 1'b1;
                 "S": gif.s = 1'b1;
@@ -37,6 +33,10 @@ module game_tb (
                 "W": gif.w = 1'b1;
             endcase
             @(posedge gif.clock);
+            gif.n = 1'b0;
+            gif.s = 1'b0;
+            gif.e = 1'b0;
+            gif.w = 1'b0;
         end
     endtask
 

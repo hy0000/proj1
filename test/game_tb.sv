@@ -8,21 +8,23 @@ module game_tb (
         game_if.s = 1'b0;
         game_if.e = 1'b0;
         game_if.w = 1'b0;
-        game_if.reset = 1;
-        #50
         game_if.reset = 0;
+        // Output monitoring
+        $monitor("@ %0t : d = %b, win = %b",$time, game_if.d, game_if.win);
+        #10000;
+        $display("ERROR: time out after %0t", $time);
+        $finish;
     end
 
-    task reset();
+    task reset;
+        #10;
         game_if.reset = 1;
-        #50
+        #50;
         game_if.reset = 0;
+        #10;
     endtask
 
     task run_test(string dir_seq);
-        if(game_if.reset)
-            @(!game_if.reset)
-
         for(int i=0; i<dir_seq.len(); i++) begin
             game_if.n = 1'b0;
             game_if.s = 1'b0;
@@ -39,19 +41,12 @@ module game_tb (
     endtask
 
     task monitor;
-        fork
-            // Output monitoring
-            forever @(posedge game_if.clk) begin
-                $display("d = %b, win = %b", game_if.d, game_if.win);
+        // Stop simulation when game over
+        forever @(posedge game_if.clk) begin
+            if (game_if.d || game_if.win) begin
+                $finish;
             end
-            // Stop simulation when game over
-            forever @(posedge game_if.clk) begin
-                if (game_if.d || game_if.win) begin
-                    $display("simulation end at clk = %d", $time);
-                    $finish;
-                end
-            end
-        join
+        end
     endtask
 
 endmodule

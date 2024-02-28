@@ -12,7 +12,7 @@ module game_test1;
         $fsdbDumpfile("tb1.fsdb");
         $fsdbDumpvars(0, game_tb);
         fork
-            tb.run_test("ESWEE");
+            tb.run_test("ESWWEE");
             tb.monitor();
         join
     end

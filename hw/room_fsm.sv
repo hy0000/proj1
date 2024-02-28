@@ -1,7 +1,7 @@
 `timescale 1ns/1ns
-module RoomFSM (
-    input logic clk,       // Clock input
-    input logic reset,     // Reset input
+module room_fsm (
+    input logic clock,     // Clock input
+    input logic R,     // Reset input
     input logic n,         // North direction input
     input logic s,         // South direction input
     input logic e,         // East direction input
@@ -25,8 +25,8 @@ module RoomFSM (
     State current_state, next_state;
 
     // D flip-flop to store the current state
-    always_ff @(posedge clk or posedge reset) begin
-        if (reset) begin
+    always_ff @(posedge clock or posedge R) begin
+        if (R) begin
             current_state <= CAVE; // Initial state
         end
         else begin
@@ -70,4 +70,4 @@ module RoomFSM (
             end
         endcase
     end
-endmodule : RoomFSM
+endmodule

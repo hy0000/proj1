@@ -1,7 +1,7 @@
 `timescale 1ns/1ns
-module SwordFSM (
-    input logic clk,       // Clock input
-    input logic reset,     // Reset input
+module sword_fsm (
+    input logic clock,     // Clock input
+    input logic R,         // Reset input
     input logic sw,        // Sword found signal input
     output logic v         // Output indicating vorpal sword found
 );
@@ -14,8 +14,8 @@ module SwordFSM (
     State current_state, next_state;
 
     // D flip-flop to store the current state
-    always_ff @(posedge clk or posedge reset) begin
-        if (reset) begin
+    always_ff @(posedge clock or posedge R) begin
+        if (R) begin
             current_state <= NO_SWORD; // Initial state
         end
         else begin

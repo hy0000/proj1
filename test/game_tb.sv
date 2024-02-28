@@ -1,16 +1,16 @@
 `timescale 1ns/1ns
 module game_tb (
-    GameIf.TEST game_if
+    game_if.TEST gif
 );
 
     initial begin
-        game_if.n = 1'b0;
-        game_if.s = 1'b0;
-        game_if.e = 1'b0;
-        game_if.w = 1'b0;
-        game_if.reset = 0;
+        gif.n = 1'b0;
+        gif.s = 1'b0;
+        gif.e = 1'b0;
+        gif.w = 1'b0;
+        gif.R = 0;
         // Output monitoring
-        $monitor("@ %0t : d = %b, win = %b",$time, game_if.d, game_if.win);
+        $monitor("@ %0t : d = %b, win = %b",$time, gif.d, gif.win);
         #10000;
         $display("ERROR: time out after %0t", $time);
         $finish;
@@ -18,32 +18,32 @@ module game_tb (
 
     task reset;
         #10;
-        game_if.reset = 1;
+        gif.R = 1;
         #50;
-        game_if.reset = 0;
+        gif.R = 0;
         #10;
     endtask
 
     task run_test(string dir_seq);
         for(int i=0; i<dir_seq.len(); i++) begin
-            game_if.n = 1'b0;
-            game_if.s = 1'b0;
-            game_if.e = 1'b0;
-            game_if.w = 1'b0;
+            gif.n = 1'b0;
+            gif.s = 1'b0;
+            gif.e = 1'b0;
+            gif.w = 1'b0;
             case(dir_seq[i])
-                "N": game_if.n = 1'b1;
-                "S": game_if.s = 1'b1;
-                "E": game_if.e = 1'b1;
-                "W": game_if.w = 1'b1;
+                "N": gif.n = 1'b1;
+                "S": gif.s = 1'b1;
+                "E": gif.e = 1'b1;
+                "W": gif.w = 1'b1;
             endcase
-            @(posedge game_if.clk);
+            @(posedge gif.clock);
         end
     endtask
 
     task monitor;
         // Stop simulation when game over
-        forever @(posedge game_if.clk) begin
-            if (game_if.d || game_if.win) begin
+        forever @(posedge gif.clock) begin
+            if (gif.d || gif.win) begin
                 $finish;
             end
         end

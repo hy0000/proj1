@@ -15,5 +15,6 @@ module game_test;
             tb.run_test("ESWEE");
             tb.monitor();
         join
+        $finish;
     end
 endmodule

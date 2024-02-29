@@ -12,8 +12,15 @@ module game_test;
         $fsdbDumpvars(0, game_test);
         tb.reset();
         fork
-           tb.run_test("_E_W_E_S_N_S_W_E_E");
+           tb.run_test("EWESNSE");
            tb.monitor();
         join
+        tb.reset();
+        fork
+            tb.run_test("_E_S_W_E_E");
+            tb.monitor();
+        join
+        tb.reset();
+        $finish;
     end
 endmodule

@@ -20,8 +20,8 @@ module game_tb (
         #10;
         gif.R = 1;
         #50;
+        @(posedge gif.clock);
         gif.R = 0;
-        #10;
     endtask
 
     task run_test(string dir_seq);
@@ -42,10 +42,8 @@ module game_tb (
 
     task monitor;
         // Stop simulation when game over
-        forever @(posedge gif.clock) begin
-            if (gif.d || gif.win) begin
-                $finish;
-            end
+        while (!(gif.d || gif.win)) begin
+            @(posedge gif.clock);
         end
     endtask
 

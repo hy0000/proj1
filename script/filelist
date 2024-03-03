@@ -1,6 +1,0 @@
-hw/room_fsm.sv
-hw/sword_fsm.sv
-hw/game_if.sv
-hw/game.sv
-
-test/game_tb.sv

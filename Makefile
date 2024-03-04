@@ -15,7 +15,7 @@ test3:
 	./tb3 $(SIM_FLAGS)
 
 test4:
-	vcs $(VCS_FLAGS) src/test/game_harness.sv -o tb4  && \
+	vcs $(VCS_FLAGS) src/test/harness.sv -o tb4  && \
 	./tb4 $(SIM_FLAGS)
 
 test_all: clean test1 test2 test3

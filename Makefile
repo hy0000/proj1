@@ -14,6 +14,10 @@ test3:
 	vcs $(VCS_FLAGS) src/test/game_harness3.sv -o tb3  && \
 	./tb3 $(SIM_FLAGS)
 
+test4:
+	vcs $(VCS_FLAGS) src/test/game_harness.sv -o tb4  && \
+	./tb4 $(SIM_FLAGS)
+
 test_all: clean test1 test2 test3
 
 coverage: tb1.vdb tb2.vdb tb3.vdb
